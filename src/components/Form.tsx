@@ -3,7 +3,10 @@ import type { ChangeEvent, FormEvent, Dispatch } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type { Activity } from "../types";
 import { categories } from "../data/categories";
-import type { ActivityActions, ActivityState } from "../reducers/activity-reducer";
+import type {
+  ActivityActions,
+  ActivityState,
+} from "../reducers/activity-reducer";
 
 type FormProps = {
   dispatch: Dispatch<ActivityActions>;
@@ -18,12 +21,14 @@ const initialState: Activity = {
   calories: 0,
 };
 
-export default function Form({dispatch, state}: FormProps) {
+export default function Form({ dispatch, state }: FormProps) {
   const [activity, setActivity] = useState<Activity>(initialState);
-  
+
   useEffect(() => {
     if (state.activeID) {
-      const selectedActivity = state.activities.find(act => act.id === state.activeID);
+      const selectedActivity = state.activities.find(
+        (act) => act.id === state.activeID,
+      );
       if (selectedActivity) {
         setActivity(selectedActivity);
       }
@@ -31,7 +36,7 @@ export default function Form({dispatch, state}: FormProps) {
   }, [state.activeID, state.activities]);
 
   const handleChange = (
-    e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>
+    e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>,
   ) => {
     const isNumberField = ["category", "calories"].includes(e.target.id);
     setActivity({
@@ -66,13 +71,19 @@ export default function Form({dispatch, state}: FormProps) {
   return (
     <div>
       <form
-        className="space-y-5 bg-white shadow p-10 rounded-lg"
+        className="space-y-6 bg-white shadow-lg border border-slate-200 p-8 rounded-xl"
         onSubmit={handleSubmit}
       >
         <div className="grid grid-cols-1 gap-3">
-          <label htmlFor="category">Category: </label>
+          <label
+            className="text-sm font-semibold text-slate-700"
+            htmlFor="category"
+          >
+            Category:{" "}
+          </label>
           <select
-            className="border border-slate-300 p-2 rounded-lg w-full bg-white"
+            className="border border-slate-300 p-3 rounded-md w-full bg-white 
+focus:outline-none focus:ring-2 focus:ring-lime-500"
             id="category"
             value={activity.category}
             onChange={handleChange}
@@ -90,7 +101,8 @@ export default function Form({dispatch, state}: FormProps) {
           <input
             type="text"
             id="description"
-            className="border border-slate-300 p-2 rounded-lg w-full bg-white"
+            className="border border-slate-300 p-3 rounded-md w-full bg-white 
+focus:outline-none focus:ring-2 focus:ring-lime-500"
             placeholder="e.g., French fries, Cesar salad, Orange juice, Running, Weightlifting"
             value={activity.description}
             onChange={handleChange}
@@ -102,7 +114,8 @@ export default function Form({dispatch, state}: FormProps) {
           <input
             type="number"
             id="calories"
-            className="border border-slate-300 p-2 rounded-lg w-full bg-white"
+            className="border border-slate-300 p-3 rounded-md w-full bg-white 
+focus:outline-none focus:ring-2 focus:ring-lime-500"
             placeholder="e.g., 300, 150, 50, 500, 200"
             value={activity.calories}
             onChange={handleChange}
@@ -110,10 +123,10 @@ export default function Form({dispatch, state}: FormProps) {
         </div>
 
         <input
-          className="bg-lime-600 text-white uppercase font-bold w-full p-2 rounded-lg cursor-pointer 
-          hover:bg-lime-700 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-lime-600 text-white uppercase font-semibold tracking-wide w-full p-3 
+  rounded-md cursor-pointer hover:bg-lime-700 transition disabled:opacity-40"
           type="submit"
-          value="Add Entry"
+          value={state.activeID ? "Update Entry" : "Add Entry"}
           disabled={!isValidActivity()}
         />
       </form>
