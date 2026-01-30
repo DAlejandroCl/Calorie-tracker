@@ -1,6 +1,18 @@
 # Calories Tracker
 
+[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://calorie-tracker-devacl.vercel.app)
+
 A web application built with **React and TypeScript** to track consumed and burned calories through daily activities. The app allows users to manage food and exercise entries, calculate calorie balances, and persist data locally in the browser.
+
+---
+
+## 🚀 Live Demo
+
+You can try the application here:
+
+👉 https://calorie-tracker-devacl.vercel.app
+
+---
 
 ## 🧩 Features
 - Add activities categorized as **Food** or **Exercise**
@@ -13,6 +25,8 @@ A web application built with **React and TypeScript** to track consumed and burn
 - Full application reset
 - Responsive user interface focused on usability
 
+---
+
 ## 🛠 Tech Stack
 - **React** (Functional Components)
 - **TypeScript**
@@ -21,6 +35,8 @@ A web application built with **React and TypeScript** to track consumed and burn
 - **Tailwind CSS** for styling
 - **Vite** as build tool
 - **UUID / crypto.randomUUID** for unique identifiers
+
+---
 
 ## 🧠 Architecture & Concepts
 - Clear separation of concerns using reusable components:
@@ -33,8 +49,9 @@ A web application built with **React and TypeScript** to track consumed and burn
 - Static configuration using data files for categories
 - Side effects and persistence handled with `useEffect`
 
-## 🗂 Project Structure
+---
 
+## 🗂 Project Structure
 ```txt
 src/
 ├── components/
