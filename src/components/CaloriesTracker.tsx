@@ -12,9 +12,9 @@ export default function CaloriesTracker({ activities }: CaloriesTrackerProps) {
       activities.reduce(
         (total, activity) =>
           activity.category === 1 ? total + activity.calories : total,
-        0
+        0,
       ),
-    [activities]
+    [activities],
   );
 
   const caloriesBurned = useMemo(
@@ -22,9 +22,9 @@ export default function CaloriesTracker({ activities }: CaloriesTrackerProps) {
       activities.reduce(
         (total, activity) =>
           activity.category === 2 ? total + activity.calories : total,
-        0
+        0,
       ),
-    [activities]
+    [activities],
   );
 
   const netCalories = useMemo(() => {
@@ -33,14 +33,19 @@ export default function CaloriesTracker({ activities }: CaloriesTrackerProps) {
 
   return (
     <>
-      <h2 className="text-4xl font-black text-white text-center uppercase">
-        Summary of calories
+      <h2 className="text-4xl font-extrabold text-white text-center tracking-tight">
+        Calories Summary
       </h2>
 
-      <div className="flex flex-col items-center md:flex-row md:justify-between gap-6 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
         <CaloriesDisplay calories={caloriesConsumed} text="Consumed" />
         <CaloriesDisplay calories={caloriesBurned} text="Burned" />
-        <CaloriesDisplay calories={netCalories} text="Net" />
+        <CaloriesDisplay
+  calories={netCalories}
+  text="Net"
+  variant={netCalories < 0 ? "negative" : "positive"}
+/>
+
       </div>
     </>
   );
