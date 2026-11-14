@@ -52,23 +52,16 @@ export default function ActivityList({
     [],
   );
 
-  const isEmptyActivities = useMemo(
-    () => activities.length === 0,
-    [activities],
-  );
-
   return (
     <>
       <h2 className="text-4xl font-extrabold text-slate-800 text-center mb-10">
         Food and Activities
       </h2>
 
-      {activities.length === 0 ? (
+      {activities.length === 0 && (
         <p className="text-center text-slate-500 mt-6">
           No activities added yet
         </p>
-      ) : (
-        isEmptyActivities
       )}
 
       {activities.map((activity) => (
