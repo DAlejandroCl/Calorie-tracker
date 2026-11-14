@@ -99,6 +99,8 @@ export default function ActivityList({
 
             <div className="flex gap-4">
               <button
+                type="button"
+                aria-label={`Edit ${activity.description}`}
                 onClick={() =>
                   dispatch({
                     type: "SET_ACTIVE_ACTIVITY",
@@ -106,10 +108,15 @@ export default function ActivityList({
                   })
                 }
               >
-                <PencilSquareIcon className="h-6 w-6 text-slate-400 hover:text-lime-600 transition" />
+                <PencilSquareIcon
+                  aria-hidden="true"
+                  className="h-6 w-6 text-slate-400 hover:text-lime-600 transition"
+                />
               </button>
 
               <button
+                type="button"
+                aria-label={`Remove ${activity.description}`}
                 onClick={() =>
                   dispatch({
                     type: "REMOVE_ACTIVITY",
@@ -117,7 +124,10 @@ export default function ActivityList({
                   })
                 }
               >
-                <XCircleIcon className="h-6 w-6 text-slate-400 hover:text-red-500 transition" />
+                <XCircleIcon
+                  aria-hidden="true"
+                  className="h-6 w-6 text-slate-400 hover:text-red-500 transition"
+                />
               </button>
             </div>
           </div>
