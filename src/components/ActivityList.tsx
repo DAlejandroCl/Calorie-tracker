@@ -28,9 +28,9 @@ export default function ActivityList({
     () => (categoryId: number) => {
       switch (categoryId) {
         case 1:
-          return "bg-lime-200 text-lime-600";
+          return "bg-lime-200 text-lime-800";
         case 2:
-          return "bg-red-200 text-red-600";
+          return "bg-red-200 text-red-800";
         default:
           return "bg-gray-200 text-gray-600";
       }
