@@ -28,9 +28,9 @@ export default function ActivityList({
     () => (categoryId: number) => {
       switch (categoryId) {
         case 1:
-          return "bg-lime-200 text-lime-600";
+          return "bg-lime-200 text-lime-800";
         case 2:
-          return "bg-red-200 text-red-600";
+          return "bg-red-200 text-red-800";
         default:
           return "bg-gray-200 text-gray-600";
       }
@@ -52,23 +52,16 @@ export default function ActivityList({
     [],
   );
 
-  const isEmptyActivities = useMemo(
-    () => activities.length === 0,
-    [activities],
-  );
-
   return (
     <>
       <h2 className="text-4xl font-extrabold text-slate-800 text-center mb-10">
         Food and Activities
       </h2>
 
-      {activities.length === 0 ? (
+      {activities.length === 0 && (
         <p className="text-center text-slate-500 mt-6">
           No activities added yet
         </p>
-      ) : (
-        isEmptyActivities
       )}
 
       {activities.map((activity) => (
@@ -99,6 +92,8 @@ export default function ActivityList({
 
             <div className="flex gap-4">
               <button
+                type="button"
+                aria-label={`Edit ${activity.description}`}
                 onClick={() =>
                   dispatch({
                     type: "SET_ACTIVE_ACTIVITY",
@@ -106,10 +101,15 @@ export default function ActivityList({
                   })
                 }
               >
-                <PencilSquareIcon className="h-6 w-6 text-slate-400 hover:text-lime-600 transition" />
+                <PencilSquareIcon
+                  aria-hidden="true"
+                  className="h-6 w-6 text-slate-400 hover:text-lime-600 transition"
+                />
               </button>
 
               <button
+                type="button"
+                aria-label={`Remove ${activity.description}`}
                 onClick={() =>
                   dispatch({
                     type: "REMOVE_ACTIVITY",
@@ -117,7 +117,10 @@ export default function ActivityList({
                   })
                 }
               >
-                <XCircleIcon className="h-6 w-6 text-slate-400 hover:text-red-500 transition" />
+                <XCircleIcon
+                  aria-hidden="true"
+                  className="h-6 w-6 text-slate-400 hover:text-red-500 transition"
+                />
               </button>
             </div>
           </div>

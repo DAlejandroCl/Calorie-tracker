@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useReducer } from "react";
 import Form from "./components/Form";
-import { activityReducer, initialState } from "./reducers/activity-reducer";
+import { activityReducer, createInitialState } from "./reducers/activity-reducer";
+import { saveActivities } from "./storage/activities";
 import { categories } from "./data/categories";
 import ActivityList from "./components/ActivityList";
 import CaloriesTracker from "./components/CaloriesTracker";
 
 function App() {
-  const [state, dispatch] = useReducer(activityReducer, initialState);
+  const [state, dispatch] = useReducer(activityReducer, undefined, createInitialState);
 
   useEffect(() => {
-    localStorage.setItem("activities", JSON.stringify(state.activities));
+    saveActivities(state.activities);
   }, [state.activities]);
 
   const canRestartApp = useMemo(

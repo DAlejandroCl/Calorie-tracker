@@ -1,4 +1,5 @@
 import type { Activity } from "../types";
+import { loadActivities } from "../storage/activities";
 
 export type ActivityActions =
   | { type: "ADD_ACTIVITY"; payload: { newActivity: Activity } }
@@ -12,18 +13,14 @@ export type ActivityState = {
   activeID: Activity['id']
 };
 
-const localStorageActivities = () => {
-  const activities = localStorage.getItem("activities");
-  return activities ? JSON.parse(activities) : [];
-}
-
-export const initialState: ActivityState = {
-  activities: localStorageActivities(),
+/** Built when the app starts, so what is read from storage is not fixed when the file is imported. */
+export const createInitialState = (): ActivityState => ({
+  activities: loadActivities(),
   activeID: '',
-};
+});
 
 export const activityReducer = (
-  state: ActivityState = initialState,
+  state: ActivityState,
   action: ActivityActions
 ): ActivityState => {
   switch (action.type) {
@@ -45,6 +42,8 @@ export const activityReducer = (
       return {
         ...state,
         activities: newActivities,
+        // Removing the activity being edited ends the edit.
+        activeID: state.activeID === action.payload.id ? '' : state.activeID,
       };
     }
 

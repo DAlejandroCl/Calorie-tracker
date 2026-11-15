@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import type { ChangeEvent, FormEvent, Dispatch } from "react";
-import { v4 as uuidv4 } from "uuid";
 import type { Activity } from "../types";
 import { categories } from "../data/categories";
+import { MAX_CALORIES } from "../schemas/activity";
 import type {
   ActivityActions,
   ActivityState,
@@ -14,8 +14,9 @@ type FormProps = {
   state: ActivityState;
 };
 
+// The id stays empty: the reducer gives each new activity its own id.
 const initialState: Activity = {
-  id: uuidv4(),
+  id: "",
   category: 1,
   description: "",
   calories: 0,
@@ -35,6 +36,13 @@ export default function Form({ dispatch, state }: FormProps) {
     }
   }, [state.activeID, state.activities]);
 
+  // When the activity being edited is removed, the form goes back to a new entry.
+  useEffect(() => {
+    if (!state.activeID && activity.id !== "") {
+      setActivity(initialState);
+    }
+  }, [state.activeID, activity.id]);
+
   const handleChange = (
     e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>,
   ) => {
@@ -47,7 +55,12 @@ export default function Form({ dispatch, state }: FormProps) {
 
   const isValidActivity = () => {
     const { description, calories } = activity;
-    return description.trim() !== "" && calories > 0;
+    return (
+      description.trim() !== "" &&
+      Number.isInteger(calories) &&
+      calories >= 1 &&
+      calories <= MAX_CALORIES
+    );
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -65,7 +78,7 @@ export default function Form({ dispatch, state }: FormProps) {
       });
     }
 
-    setActivity({ ...initialState, id: uuidv4() });
+    setActivity(initialState);
   };
 
   return (
@@ -114,12 +127,19 @@ focus:outline-none focus:ring-2 focus:ring-lime-500"
           <input
             type="number"
             id="calories"
+            min={1}
+            max={MAX_CALORIES}
+            step={1}
+            aria-describedby="calories-hint"
             className="border border-slate-300 p-3 rounded-md w-full bg-white 
 focus:outline-none focus:ring-2 focus:ring-lime-500"
             placeholder="e.g., 300, 150, 50, 500, 200"
             value={activity.calories}
             onChange={handleChange}
           />
+          <p id="calories-hint" className="text-sm text-slate-600">
+            Whole number from 1 to {MAX_CALORIES.toLocaleString("en-US")}.
+          </p>
         </div>
 
         <input
